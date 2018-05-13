@@ -1,0 +1,3 @@
+module QtOutGauge
+plugin declarative_qtoutgaugeplugin
+classname QOutGaugePlugin
