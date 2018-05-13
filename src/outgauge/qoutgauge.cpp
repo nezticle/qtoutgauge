@@ -175,7 +175,6 @@ void QOutGauge::processLights(quint32 lights)
 
 void QOutGauge::setSpeed(float speed)
 {
-    qWarning("Floating point comparison needs context sanity check");
     if (qFuzzyCompare(m_speed, speed))
         return;
 
@@ -185,7 +184,6 @@ void QOutGauge::setSpeed(float speed)
 
 void QOutGauge::setRpm(float rpm)
 {
-    qWarning("Floating point comparison needs context sanity check");
     if (qFuzzyCompare(m_rpm, rpm))
         return;
 
@@ -195,7 +193,6 @@ void QOutGauge::setRpm(float rpm)
 
 void QOutGauge::setTurbo(float turbo)
 {
-    qWarning("Floating point comparison needs context sanity check");
     if (qFuzzyCompare(m_turbo, turbo))
         return;
 
@@ -205,7 +202,6 @@ void QOutGauge::setTurbo(float turbo)
 
 void QOutGauge::setEngineTemp(float engineTemp)
 {
-    qWarning("Floating point comparison needs context sanity check");
     if (qFuzzyCompare(m_engineTemp, engineTemp))
         return;
 
@@ -215,7 +211,6 @@ void QOutGauge::setEngineTemp(float engineTemp)
 
 void QOutGauge::setFuel(float fuel)
 {
-    qWarning("Floating point comparison needs context sanity check");
     if (qFuzzyCompare(m_fuel, fuel))
         return;
 
@@ -225,7 +220,6 @@ void QOutGauge::setFuel(float fuel)
 
 void QOutGauge::setOilPressure(float oilPressure)
 {
-    qWarning("Floating point comparison needs context sanity check");
     if (qFuzzyCompare(m_oilPressure, oilPressure))
         return;
 
@@ -235,7 +229,6 @@ void QOutGauge::setOilPressure(float oilPressure)
 
 void QOutGauge::setOilTemp(float oilTemp)
 {
-    qWarning("Floating point comparison needs context sanity check");
     if (qFuzzyCompare(m_oilTemp, oilTemp))
         return;
 
@@ -245,7 +238,6 @@ void QOutGauge::setOilTemp(float oilTemp)
 
 void QOutGauge::setThrottle(float throttle)
 {
-    qWarning("Floating point comparison needs context sanity check");
     if (qFuzzyCompare(m_throttle, throttle))
         return;
 
@@ -255,7 +247,6 @@ void QOutGauge::setThrottle(float throttle)
 
 void QOutGauge::setBrake(float brake)
 {
-    qWarning("Floating point comparison needs context sanity check");
     if (qFuzzyCompare(m_brake, brake))
         return;
 
@@ -265,7 +256,6 @@ void QOutGauge::setBrake(float brake)
 
 void QOutGauge::setClutch(float clutch)
 {
-    qWarning("Floating point comparison needs context sanity check");
     if (qFuzzyCompare(m_clutch, clutch))
         return;
 
