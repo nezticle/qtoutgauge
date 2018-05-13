@@ -70,54 +70,60 @@ float readFloat(const char* floatData)
 
 void QOutGaugeBackend::processPendingDatagrams()
 {
-    QNetworkDatagram datagram = m_outGaugeSocket->receiveDatagram();
-    if (datagram.data().size() != sizeof(OutGaugePack)) {
-        return;
-    }
-
     OutGaugePack packet;
-    const char* data = datagram.data().constData();
-    int seek = 0;
-    packet.Time = static_cast<quint32>(data[seek]);
-    seek += sizeof(quint32);
-    packet.Car = QByteArray(&data[seek], 4);
-    seek += sizeof(char) * 4;
-    packet.Flags = static_cast<quint16>(data[seek]);
-    seek += sizeof(quint16);
-    packet.Gear = static_cast<quint8>(data[seek]);
-    seek += sizeof(quint8);
-    packet.PLID = static_cast<quint8>(data[seek]);
-    seek += sizeof(quint8);
-    packet.Speed = readFloat(&data[seek]);
-    seek += sizeof(float);
-    packet.RPM = readFloat(&data[seek]);
-    seek += sizeof(float);
-    packet.Turbo = readFloat(&data[seek]);
-    seek += sizeof(float);
-    packet.EngTemp = readFloat(&data[seek]);
-    seek += sizeof(float);
-    packet.Fuel = readFloat(&data[seek]);
-    seek += sizeof(float);
-    packet.OilPressure = readFloat(&data[seek]);
-    seek += sizeof(float);
-    packet.OilTemp = readFloat(&data[seek]);
-    seek += sizeof(float);
-    packet.DashLights = static_cast<quint32>(data[seek]);
-    seek += sizeof(quint32);
-    packet.ShowLights = static_cast<quint32>(data[seek]);
-    seek += sizeof(quint32);
-    packet.Throttle = readFloat(&data[seek]);
-    seek += sizeof(float);
-    packet.Brake = readFloat(&data[seek]);
-    seek += sizeof(float);
-    packet.Clutch = readFloat(&data[seek]);
-    seek += sizeof(float);
-    packet.Display1 = QByteArray(&data[seek], 16);
-    seek += sizeof(char) * 16;
-    packet.Display2 = QByteArray(&data[seek], 16);
-    seek += sizeof(char) * 16;
-    packet.ID = static_cast<quint32>(data[seek]);
-    seek += sizeof(quint32);
+
+    while (m_outGaugeSocket->hasPendingDatagrams()) {
+
+        QNetworkDatagram datagram = m_outGaugeSocket->receiveDatagram();
+        if (datagram.data().size() != sizeof(OutGaugePack)) {
+            break;
+        }
+
+
+        const char* data = datagram.data().constData();
+        int seek = 0;
+        packet.Time = static_cast<quint32>(data[seek]);
+        seek += sizeof(quint32);
+        packet.Car = QByteArray(&data[seek], 4);
+        seek += sizeof(char) * 4;
+        packet.Flags = static_cast<quint16>(data[seek]);
+        seek += sizeof(quint16);
+        packet.Gear = static_cast<quint8>(data[seek]);
+        seek += sizeof(quint8);
+        packet.PLID = static_cast<quint8>(data[seek]);
+        seek += sizeof(quint8);
+        packet.Speed = readFloat(&data[seek]);
+        seek += sizeof(float);
+        packet.RPM = readFloat(&data[seek]);
+        seek += sizeof(float);
+        packet.Turbo = readFloat(&data[seek]);
+        seek += sizeof(float);
+        packet.EngTemp = readFloat(&data[seek]);
+        seek += sizeof(float);
+        packet.Fuel = readFloat(&data[seek]);
+        seek += sizeof(float);
+        packet.OilPressure = readFloat(&data[seek]);
+        seek += sizeof(float);
+        packet.OilTemp = readFloat(&data[seek]);
+        seek += sizeof(float);
+        packet.DashLights = static_cast<quint32>(data[seek]);
+        seek += sizeof(quint32);
+        packet.ShowLights = static_cast<quint32>(data[seek]);
+        seek += sizeof(quint32);
+        packet.Throttle = readFloat(&data[seek]);
+        seek += sizeof(float);
+        packet.Brake = readFloat(&data[seek]);
+        seek += sizeof(float);
+        packet.Clutch = readFloat(&data[seek]);
+        seek += sizeof(float);
+        packet.Display1 = QByteArray(&data[seek], 16);
+        seek += sizeof(char) * 16;
+        packet.Display2 = QByteArray(&data[seek], 16);
+        seek += sizeof(char) * 16;
+        packet.ID = static_cast<quint32>(data[seek]);
+        seek += sizeof(quint32);
+
+    }
 
     for (QOutGauge *gauge : m_gauges) {
         gauge->setGear(packet.Gear);
@@ -134,13 +140,14 @@ void QOutGaugeBackend::processPendingDatagrams()
         gauge->processFlags(packet.Flags);
         gauge->processLights(packet.ShowLights);
     }
+
 #if 0
     qDebug() << "Time: " << packet.Time;
     qDebug() << "Car: " << packet.Car;
     qDebug() << "Flags: " << packet.Flags;
     qDebug() << "Gear: " << packet.Gear;
     qDebug() << "PLID: " << packet.PLID;
-    qDebug() << "Speed: " << packet.Speed;
+    qDebug() << "Speed: " << packet.Speed * 3.6f;
     qDebug() << "RPM: " << packet.RPM;
     qDebug() << "Turbo: " << packet.Turbo;
     qDebug() << "Engine Temp: " << packet.EngTemp;
